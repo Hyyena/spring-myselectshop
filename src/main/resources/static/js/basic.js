@@ -83,12 +83,12 @@ function addHTML(itemDto) {
    */
   return `<div class="search-itemDto">
         <div class="search-itemDto-left">
-            <img src="${itemDto.image}" alt="">
+            <img src="${itemDto.thumbnailUrl}" alt="">
         </div>
         <div class="search-itemDto-center">
             <div>${itemDto.title}</div>
             <div class="price">
-                ${numberWithCommas(itemDto.lprice)}
+                ${numberWithCommas(itemDto.lowestPrice)}
                 <span class="unit">원</span>
             </div>
         </div>
@@ -115,7 +115,7 @@ function addProduct(itemDto) {
     success: function (response) {
       // 2. 응답 함수에서 modal을 뜨게 하고, targetId 를 reponse.id 로 설정
       $('#container').addClass('active');
-      targetId = response.id;
+      targetId = response.productId;
     },
     error(error, status, request) {
       console.log(error);
@@ -152,9 +152,9 @@ function showProduct(isAdmin = false) {
 function addProductItem(product) {
   console.log(product)
   return `<div class="product-card">
-                <div onclick="window.location.href='${product.link}'">
+                <div onclick="window.location.href='${product.purchaseUrl}'">
                     <div class="card-header">
-                        <img src="${product.image}"
+                        <img src="${product.thumbnailUrl}"
                              alt="">
                     </div>
                     <div class="card-body">
@@ -162,9 +162,9 @@ function addProductItem(product) {
                             ${product.title}
                         </div>
                         <div class="lprice">
-                            <span>${numberWithCommas(product.lprice)}</span>원
+                            <span>${numberWithCommas(product.lowestPrice)}</span>원
                         </div>
-                        <div class="isgood ${product.lprice > product.myprice ? 'none' : ''}">
+                        <div class="isgood ${product.lowestPrice > product.wishPrice ? 'none' : ''}">
                             최저가
                         </div>
                     </div>
@@ -185,9 +185,9 @@ function setMyprice() {
    * 6. 창을 새로고침한다. window.location.reload();
    */
     // 1. id가 myprice 인 input 태그에서 값을 가져온다.
-  let myprice = $('#myprice').val();
+  let wishPrice = $('#myprice').val();
   // 2. 만약 값을 입력하지 않았으면 alert를 띄우고 중단한다.
-  if (myprice == '') {
+  if (wishPrice == '') {
     alert('올바른 가격을 입력해주세요');
     return;
   }
@@ -197,7 +197,7 @@ function setMyprice() {
     type: 'PUT',
     url: `/api/products/${targetId}`,
     contentType: 'application/json',
-    data: JSON.stringify({myprice: myprice}),
+    data: JSON.stringify({wishPrice: wishPrice}),
     success: function (response) {
 
       // 4. 모달을 종료한다. $('#container').removeClass('active');

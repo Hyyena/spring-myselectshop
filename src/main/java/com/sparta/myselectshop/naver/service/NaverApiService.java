@@ -1,7 +1,7 @@
 package com.sparta.myselectshop.naver.service;
 
 
-import com.sparta.myselectshop.naver.dto.ItemDto;
+import com.sparta.myselectshop.naver.controller.dto.response.itemResponse;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +25,7 @@ public class NaverApiService {
         this.restTemplate = builder.build();
     }
 
-    public List<ItemDto> searchItems(String query) {
+    public List<itemResponse> searchItems(String query) {
         // 요청 URL 만들기
         URI uri = UriComponentsBuilder
                 .fromUriString("https://openapi.naver.com")
@@ -50,16 +50,16 @@ public class NaverApiService {
         return fromJSONtoItems(responseEntity.getBody());
     }
 
-    public List<ItemDto> fromJSONtoItems(String responseEntity) {
+    public List<itemResponse> fromJSONtoItems(String responseEntity) {
         JSONObject jsonObject = new JSONObject(responseEntity);
         JSONArray items = jsonObject.getJSONArray("items");
-        List<ItemDto> itemDtoList = new ArrayList<>();
+        List<itemResponse> itemResponses = new ArrayList<>();
 
         for (Object item : items) {
-            ItemDto itemDto = new ItemDto((JSONObject) item);
-            itemDtoList.add(itemDto);
+            itemResponse itemResponse = new itemResponse((JSONObject) item);
+            itemResponses.add(itemResponse);
         }
 
-        return itemDtoList;
+        return itemResponses;
     }
 }
