@@ -16,11 +16,11 @@ spring:
         use_sql_comments: true
 jwt:
   secret:
-    key: {SECRET_KEY}
+    key: ZCdkcjR3fkUxdH1GTjYpZ3guZk5MZEY6U2U0ciV4LDzCo08tOnV5fWJhJWhSIzMqWT06
 naver:
   client:
-    id: {NAVER_CLIENT_ID}
-    secret: {NAVER_CLIENT_SECRET}
+    id: EwOlrw6o2LhGXZ9XzxGZ
+    secret: QxTGaBdIwK
 ---
 # ?? ???
 spring:
@@ -29,6 +29,6 @@ spring:
       on-profile: "prod"
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://{DB_HOST}
-    username: {DB_USER}
-    password: {DB_PASSWORD}
+    url: jdbc:mysql://springboot-database.cn0660kmaam6.ap-northeast-2.rds.amazonaws.com:3306/myselectshop
+    username: hyyena
+    password: Hyyena123!
