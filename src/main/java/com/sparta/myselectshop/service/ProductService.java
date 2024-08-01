@@ -5,11 +5,16 @@ import com.sparta.myselectshop.controller.dto.request.UpdateWishPriceRequest;
 import com.sparta.myselectshop.controller.dto.response.ProductResponse;
 import com.sparta.myselectshop.entity.Product;
 import com.sparta.myselectshop.entity.User;
+import com.sparta.myselectshop.entity.UserRoleEnum;
 import com.sparta.myselectshop.naver.controller.dto.response.ItemResponse;
 import com.sparta.myselectshop.repository.ProductRepository;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,15 +46,26 @@ public class ProductService {
         return new ProductResponse(product);
     }
 
-    public List<ProductResponse> getProducts(User user) {
-        List<Product> products = productRepository.findAllByUser(user);
-        List<ProductResponse> productResponses = new ArrayList<>();
+    public Page<ProductResponse> getProducts(User user,
+                                             int page, int size, String sortBy, boolean isAsc) {
+        // 페이징 처리
+        Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Sort sort = Sort.by(direction, sortBy);
+        Pageable pageable = PageRequest.of(page, size, sort);
 
-        for (Product product : products) {
-            productResponses.add(new ProductResponse(product));
+        // 사용자 권한 가져와서 ADMIN 이면 전체 조회, USER 면 본인이 추가한 부분 조회
+        UserRoleEnum userRoleEnum = user.getRole();
+
+        Page<Product> productList;
+
+        if (userRoleEnum == UserRoleEnum.USER) {
+            // 사용자 권한이 USER 일 경우
+            productList = productRepository.findAllByUser(user, pageable);
+        } else {
+            productList = productRepository.findAll(pageable);
         }
 
-        return productResponses;
+        return productList.map(ProductResponse::new);
     }
 
     @Transactional
