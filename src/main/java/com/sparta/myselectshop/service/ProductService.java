@@ -4,6 +4,7 @@ import com.sparta.myselectshop.controller.dto.request.ProductRequest;
 import com.sparta.myselectshop.controller.dto.request.UpdateWishPriceRequest;
 import com.sparta.myselectshop.controller.dto.response.ProductResponse;
 import com.sparta.myselectshop.entity.Product;
+import com.sparta.myselectshop.naver.controller.dto.response.ItemResponse;
 import com.sparta.myselectshop.repository.ProductRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,5 +49,13 @@ public class ProductService {
         }
 
         return productResponses;
+    }
+
+    @Transactional
+    public void updateBySearch(Long id, ItemResponse itemResponse) {
+        Product product = productRepository.findById(id).orElseThrow(() ->
+                new NullPointerException("해당 상품이 존재하지 않습니다")
+        );
+        product.updateByItemResponse(itemResponse);
     }
 }

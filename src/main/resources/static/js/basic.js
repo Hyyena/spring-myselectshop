@@ -61,9 +61,11 @@ function execSearch() {
     url: `/api/search?query=${query}`,
     success: function (response) {
       $('#search-result-box').empty();
+      console.log(response)
       // 4. for 문마다 itemDto를 꺼내서 HTML 만들고 검색결과 목록에 붙이기!
-      for (let i = 0; i < response.length; i++) {
-        let itemDto = response[i];
+      for (let i = 0; i < response.items.length; i++) {
+        let itemDto = response.items[i];
+        console.log(itemDto);
         let tempHtml = addHTML(itemDto);
         $('#search-result-box').append(tempHtml);
       }
@@ -83,12 +85,12 @@ function addHTML(itemDto) {
    */
   return `<div class="search-itemDto">
         <div class="search-itemDto-left">
-            <img src="${itemDto.thumbnailUrl}" alt="">
+            <img src="${itemDto.image}" alt="">
         </div>
         <div class="search-itemDto-center">
             <div>${itemDto.title}</div>
             <div class="price">
-                ${numberWithCommas(itemDto.lowestPrice)}
+                ${numberWithCommas(itemDto.lprice)}
                 <span class="unit">원</span>
             </div>
         </div>

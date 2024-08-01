@@ -2,6 +2,7 @@ package com.sparta.myselectshop.entity;
 
 import com.sparta.myselectshop.controller.dto.request.ProductRequest;
 import com.sparta.myselectshop.controller.dto.request.UpdateWishPriceRequest;
+import com.sparta.myselectshop.naver.controller.dto.response.ItemResponse;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -40,12 +41,16 @@ public class Product extends Timestamped {
 
     public Product(ProductRequest productRequest) {
         this.title = productRequest.getTitle();
-        this.thumbnailUrl = productRequest.getThumbnailUrl();
-        this.purchaseUrl = productRequest.getPurchaseUrl();
-        this.lowestPrice = productRequest.getLowestPrice();
+        this.thumbnailUrl = productRequest.getImage();
+        this.purchaseUrl = productRequest.getLink();
+        this.lowestPrice = productRequest.getLprice();
     }
 
     public void update(UpdateWishPriceRequest updateWishPriceRequest) {
         this.wishPrice = updateWishPriceRequest.getWishPrice();
+    }
+
+    public void updateByItemResponse(ItemResponse itemResponse) {
+        this.lowestPrice = itemResponse.getLowestPrice();
     }
 }

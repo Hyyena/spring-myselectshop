@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class ProductRequest {
 
     private String title;
-    private String thumbnailUrl;
-    private String purchaseUrl;
-    private int lowestPrice;
+    private String image;
+    private String link;
+    private int lprice;
 }

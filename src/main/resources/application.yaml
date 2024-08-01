@@ -17,3 +17,18 @@ spring:
 jwt:
   secret:
     key: {SECRET_KEY}
+naver:
+  client:
+    id: {NAVER_CLIENT_ID}
+    secret: {NAVER_CLIENT_SECRET}
+---
+# ?? ???
+spring:
+  config:
+    activate:
+      on-profile: "prod"
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://{DB_HOST}
+    username: {DB_USER}
+    password: {DB_PASSWORD}

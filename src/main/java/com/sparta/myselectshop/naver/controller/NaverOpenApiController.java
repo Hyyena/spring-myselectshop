@@ -1,9 +1,8 @@
 package com.sparta.myselectshop.naver.controller;
 
 
-import com.sparta.myselectshop.naver.controller.dto.response.itemResponse;
-import com.sparta.myselectshop.naver.service.NaverApiService;
-import java.util.List;
+import com.sparta.myselectshop.naver.controller.dto.response.ItemsResponse;
+import com.sparta.myselectshop.naver.service.NaverOpenApiService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,12 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
-public class NaverApiController {
+public class NaverOpenApiController {
 
-    private final NaverApiService naverApiService;
+    private final NaverOpenApiService naverOpenApiService;
 
     @GetMapping("/search")
-    public List<itemResponse> searchItems(@RequestParam String query) {
-        return naverApiService.searchItems(query);
+    public ItemsResponse searchItems(@RequestParam String query) {
+        return naverOpenApiService.searchItems(query);
     }
 }
