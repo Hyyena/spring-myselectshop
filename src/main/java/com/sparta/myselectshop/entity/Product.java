@@ -5,9 +5,12 @@ import com.sparta.myselectshop.controller.dto.request.UpdateWishPriceRequest;
 import com.sparta.myselectshop.naver.controller.dto.response.ItemResponse;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -39,11 +42,16 @@ public class Product extends Timestamped {
     @Column(nullable = false)
     private int wishPrice;
 
-    public Product(ProductRequest productRequest) {
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    public Product(ProductRequest productRequest, User user) {
         this.title = productRequest.getTitle();
-        this.thumbnailUrl = productRequest.getImage();
-        this.purchaseUrl = productRequest.getLink();
-        this.lowestPrice = productRequest.getLprice();
+        this.thumbnailUrl = productRequest.getThumbnailUrl();
+        this.purchaseUrl = productRequest.getPurchaseUrl();
+        this.lowestPrice = productRequest.getLowestPrice();
+        this.user = user;
     }
 
     public void update(UpdateWishPriceRequest updateWishPriceRequest) {

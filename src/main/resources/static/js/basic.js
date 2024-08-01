@@ -117,12 +117,12 @@ function addHTML(itemDto) {
    */
   return `<div class="search-itemDto">
         <div class="search-itemDto-left">
-            <img src="${itemDto.image}" alt="">
+            <img src="${itemDto.thumbnailUrl}" alt="">
         </div>
         <div class="search-itemDto-center">
             <div>${itemDto.title}</div>
             <div class="price">
-                ${numberWithCommas(itemDto.lprice)}
+                ${numberWithCommas(itemDto.lowestPrice)}
                 <span class="unit">원</span>
             </div>
         </div>
@@ -179,8 +179,8 @@ function showProduct(isAdmin = false) {
     contentType: 'application/json',
     success: function (response) {
       $('#product-container').empty();
-      for (let i = 0; i < response.itmes.length; i++) {
-        let product = response.items[i];
+      for (let i = 0; i < response.length; i++) {
+        let product = response[i];
         let tempHtml = addProductItem(product);
         $('#product-container').append(tempHtml);
       }
@@ -198,9 +198,9 @@ function showProduct(isAdmin = false) {
 function addProductItem(product) {
   console.log(product)
   return `<div class="product-card">
-                <div onclick="window.location.href='${product.link}'">
+                <div onclick="window.location.href='${product.purchaseUrl}'">
                     <div class="card-header">
-                        <img src="${product.image}"
+                        <img src="${product.thumbnailUrl}"
                              alt="">
                     </div>
                     <div class="card-body">
@@ -208,9 +208,9 @@ function addProductItem(product) {
                             ${product.title}
                         </div>
                         <div class="lprice">
-                            <span>${numberWithCommas(product.lprice)}</span>원
+                            <span>${numberWithCommas(product.lowestPrice)}</span>원
                         </div>
-                        <div class="isgood ${product.lprice > product.wishprice ? 'none' : ''}">
+                        <div class="isgood ${product.lowestPrice > product.wishPrice ? 'none' : ''}">
                             최저가
                         </div>
                     </div>
