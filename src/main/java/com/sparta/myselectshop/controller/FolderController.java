@@ -22,8 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 public class FolderController {
 
-    private FolderService folderService;
-    private ProductService productService;
+    private final FolderService folderService;
+    private final ProductService productService;
 
     @PostMapping("/folders")
     public void addFolders(@RequestBody FolderRequest folderRequest,

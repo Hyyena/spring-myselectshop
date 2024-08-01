@@ -393,13 +393,12 @@ function setMyprice() {
    * 6. 창을 새로고침한다. window.location.reload();
    */
     // 1. id가 myprice 인 input 태그에서 값을 가져온다.
-  let myprice = $('#myprice').val();
+  let wishPrice = $('#myprice').val();
   // 2. 만약 값을 입력하지 않았으면 alert를 띄우고 중단한다.
-  if (myprice == '') {
+  if (wishPrice == '') {
     alert('올바른 가격을 입력해주세요');
     return;
   }
-
   // 3. PUT /api/product/${targetId} 에 data를 전달한다.
   $.ajax({
     type: 'PUT',
